@@ -1,0 +1,60 @@
+a{text-decoration: none;color:#4A7DD6;}
+a:hover{text-decoration: none;color:#666666;}
+body, td, p, input, select, textarea {font-family:verdana;font-size:11px;margin:0px 0px 0px 0px;}
+form {margin: 0px;padding: 0px;}
+img {vertical-align:bottom;}
+p {float:left;}
+td {padding: 6px 6px 6px 6px;!padding: 4px 4px 4px 4px;}
+table.center {margin-left:auto; margin-right:auto;}
+li { padding:8px 0px 8px 4px;font-size:15px; }
+ul {color:#4A7DD6;}
+#content1 {margin-left: 0px;}
+#footer {clear: both;}
+#navSelected {padding:6px 0px 5px 0px;width:127px;height:18px;text-align:center;background-color:#cccccc;color:#000;cursor:pointer;float:left;}
+.altBgRowColor {background-color:#E7EFF7;height:18px;border-bottom: 1px solid white;clear:both;}
+.bgRowColor {background-color:#C6DBFF;height:18px;border-bottom: 1px solid white;clear:both;}
+.uatAltBgRowColor {background-color:#E7EFF7;height:18px;border-bottom: 1px solid white;clear:both;color:#000;}
+.uatBgRowColor {background-color:#C6DBFF;height:18px;border-bottom: 1px solid white;clear:both;color:#000;}
+.prodAltBgRowColor {background-color:#E7EFF7;height:18px;border-bottom: 1px solid white;clear:both;color:red;}
+.prodBgRowColor {background-color:#C6DBFF;height:18px;border-bottom: 1px solid white;clear:both;color:red;}
+.breadcrumbContainer{background-color:#ccc;width:100%;border-bottom:solid 1px #666;font-weight:bold;padding:3px 0px 3px 0px;}
+.breadcrumbs{padding:4px 0px 5px 6px;}
+.breadcrumb{float:left;font-weight:normal;padding:2px 5px 0px 2px;color:#4A7DD6;}
+.breadcrumbOver{float:left;font-weight:normal;padding:2px 5px 0px 2px;color:#000;}
+.breadcrumbTitle{background-color:#ccc;}
+.button{border:1px solid #000;font-size:inherit;cursor:pointer;clear:both;}
+.button:hover{border:1px solid #000;font-size:inherit;cursor:pointer;clear:both;background-color:#fff;}
+.buttonSpacing{padding:5px 0px 0px 0px;text-align:left;}
+.cell{float:left;}
+.checkBoxText{float:left;padding:3px 2px 0px 0px;}
+.checkBoxContainer{float:left;padding:0px 5px 0px 0px;}
+.colLeft{float:left;width:150px;text-align:right;padding:0px 5px 0px 0px;}
+.colRight{float:left;width:150px;text-align:left;padding:0px 0px 0px 5px;}
+.formLeftColumn{float:left;text-align:right;padding-right:5px;width:160px;border:0px solid #000;}
+.formRightColumn{float:left;width:300px;border:0px solid #000;}
+.ftpLink{text-decoration: underline;color:#4A7DD6;font-weight:normal;}
+.ftpLink:hover{text-decoration: underline;color:#666;font-weight:normal;}
+.header {background-color:#9CBAEF;color:#000;border: 1px outset #ccc;font-weight:bold;text-align:left;padding:5px 0px 5px 4px;}
+.headerContent{border: 1px solid Black;padding:0px 0px 0px 0px;margin: 0;}
+.integratorViewHeader{background-color:#4A7DD6;color:#fff;font-weight:bold;padding:3px 0px 3px 5px;font-size:12px;border:1px outset #0C359E;}
+.mainFormContainer{width:720px;text-align:left;border:0px solid #000;}
+.navItemTop{border:1px outset #ccc;float:left;padding:5px 0px 5px 0px;width:134px;text-align:center;background-color:inherit;color:#fff;cursor:pointer;}
+.navItemOverTop {padding:5px 0px 5px 0px;border:1px solid #ccc;width:134px;text-align:center;background-color:#ccc;color:#000;cursor:pointer;float:left;}
+.navTopContainer {padding:0px 0px 0px 0px;width:100%;background-color:#4A7DD6;height:25px;margin:0px 0px 0px 0px;}
+.outputName{background-color:#dedee6;padding:3px 0px 3px 25px;border:1px outset #000;}
+.outputBody{background-color:#dedee6;padding:3px 0px 3px 25px;border:1px outset #000;}
+.outputPath{background-color:#fff;padding:3px 0px 3px 25px;border:1px outset #000;}
+.pageHeader {margin: 0;vertical-align: bottom;background-color:#244fbd;text-align:left;}
+.pageSpacer {width:100%;margin-bottom:10px;}
+.pageTitle {padding:4px 0px 4px 10px; font-weight:bold; color:#fff;font-size:14px;text-align:left;}
+.pageWidth{width:900px;margin: 0 auto;}
+.row{padding: 4px 0px 4px 0px;!padding: 2px 0px 2px 0px;width:100%;clear:both;}
+.scanHeader {background-color:#9CBAEF;padding:3px 0px 3px 15px;color:#fff;font-weight:bold;}
+.scanBody{background-color:#fff;padding:3px 0px 3px 15px;font-weight:bold;font-size:10px;border: 1px outset #000;}
+.scrollDiv {overflow: scroll;width:780px;height:500px;margin-left:auto; margin-right:auto;}
+.subHeader {background-color:#ccc;}
+.textBox, select{border: solid 1px #000;background-color:#C6DBFF;background-color:#E7EFF7}
+.textSpacing { width:100px; }
+.totalAssets {padding:5px 3px 5px 0px;width:774px; border: 1px solid #999;text-align:right;margin-left:auto; margin-right:auto;}
+.viewCell1 {font-weight:bold; width:120px}
+.viewCell2 {}

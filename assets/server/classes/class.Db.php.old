@@ -1,0 +1,311 @@
+<?php 
+$staticLink = null;
+define("ROW_AS_ARRAY", 0); 
+define("ROW_AS_OBJECT", 1); 
+$defaultMethod = ROW_AS_OBJECT;
+
+class MySQL 
+{
+	public function __construct() 
+	{
+	
+	}
+	
+	public function get_link() 
+	{
+		global $static_link; 
+
+		if ($static_link) 
+				return $static_link; 
+		else 
+				$this->report_error(); 
+	}
+	
+	public function connect($db, $host, $user, $pass) 
+	{
+		global $static_link;
+		 				 
+		if(!$this->link = mysql_connect($host, $user, $pass)) 
+		{			
+			$this->report_error(); 
+		} 
+		
+		if(!mysql_select_db($db, $this->link)) 
+		{				
+			$this->report_error();				
+		} 
+		else 
+		{
+			$this->db = $db;			
+		} 
+		
+		$static_link = $this->link;		
+	}
+	
+	/* 
+	 * void report_error() 
+	 */ 
+	protected function report_error() 
+	{
+		echo "MySQL Error " . mysql_errno($this->link) . ": " . mysql_error($this->link);			 
+		exit; 
+	} 
+	
+}
+
+class Query extends MySQL 
+{
+	public $result;
+	
+	public function __construct($query = false) 
+	{
+		$this->connect();
+		
+		if($query) 
+		{
+			$this->query = $query;
+			$this->result = $this->result($query);		
+		}		
+	}
+	
+	public function connect() 	
+	{
+		MySQL::connect(DATABASE, HOST, USERNAME, PASSWORD);
+	}
+	
+	public function result($query) 
+	{			
+		if($result = mysql_query($query, $this->link)) 
+		{ 			
+			if(ereg("^insert", strtolower($query))) 
+				return mysql_insert_id(); 
+			elseif(ereg("^select", strtolower($query))) 
+				return $result; 
+			else 
+				return; 
+		} 
+		else 	
+		{				
+			MySQL::report_error(); 
+		}
+	}
+	
+	public function num_rows($result = false)
+	{
+		if(!$result) 
+		{
+			return mysql_num_rows($this->result);
+		}
+		else 		
+		{
+			return mysql_num_rows($result);
+		}
+	}
+
+	public function next($method = -1) 
+	{ 
+			global $defaultMethod; 
+			if($method == -1) 
+					$method = $defaultMethod; 
+
+			if($method == ROW_AS_OBJECT) 
+					return $this->fetch_object_row(); 
+			elseif($method == ROW_AS_ARRAY) 
+					return $this->fetch_array_row(); 
+	} 
+
+	/* 
+	 * object _fetch_object_row() 
+	 */ 
+	public function fetch_object_row() 
+	{ 
+			if(!($row = mysql_fetch_object($this->result))) 
+					return false; 
+			else 
+					return $row; 
+	} 
+
+	/* 
+	 * array _fetch_array_row() 
+	 */ 
+	public function fetch_array_row() 
+	{ 
+			if(!($row = mysql_fetch_array($this->result))) 
+					return false; 
+			else 
+					return $row; 
+	} 
+	
+	public function fetch_row_assoc() 
+	{
+	  $row = mysql_fetch_assoc($this->result);
+	  $a = array();
+
+		for ($i = 0; $i < mysql_num_fields($this->result); $i++) 
+		{		
+			$meta = mysql_fetch_field($this->result, $i); 
+			$a["$meta->name"] = $row["$meta->name"];
+		}
+				
+		if(count($a) > 0) 
+		{
+		  return $a;
+		}
+		else 
+		{
+		  echo "Error: empty fetch_row_assoc array";
+		}
+	}
+	
+	public function row_register_session($session_name) 
+	{
+		$session_name = $this->fetch_row_assoc();
+		session_register("session_name");
+	}
+	 
+	public function fetch_objects() 
+	{ 
+			$obj = Array(); 
+			while($val = @mysql_fetch_object($this->result)) 
+			{ 
+					$obj[] = $val; 
+			} 
+			return $obj; 
+	} 
+
+	public function fetch_arrays() 
+	{ 
+			$arr = Array(); 
+			while($val = @mysql_fetch_array($this->result)) 
+			{ 
+					$arr[] = $val; 
+			} 
+			return $arr; 
+	} 
+
+	public function insert_record($tableName, $fields) {
+	
+		$fields = $this->get_table_array($tableName, $fields);
+		
+		if (is_array($fields)) {		
+		
+			$columnstring = "";
+			$valuestring  = "";
+			
+			while(list($key,$value) = each($fields)) 
+			{
+				$columns[] = $key;
+				$values[]  = $value;					
+			}
+			
+			$numcols = count($columns);
+			$numvals = count($values);
+		
+			for($i = 0;$i < $numcols;$i++) 
+			{
+				$columnstring .= $columns[$i];
+				if($i < $numcols-1) 
+					$columnstring .= ",";
+			}
+			
+			for($i = 0;$i < $numvals;$i++) 
+			{
+				$valuestring .= "'$values[$i]'";
+				if($i < $numvals-1) 
+					$valuestring .= ",";
+			}
+	
+			$insert_string = "INSERT INTO ".$tableName." (".$columnstring.") VALUES (".$valuestring.")";
+			
+			return $insert_id = $this->result($insert_string);			
+		}
+	}	
+	
+	public function update_record($tableName, $array, $whereClause = false) 
+	{
+		if(!$whereClause) 
+		{
+			echo "Error: missing WHERE clause";
+			exit;
+		}
+		
+		$update_string = $this->get_update_string($tableName, $array);
+		
+		$queryString  = "UPDATE " . $tableName . " SET " . $update_string . " " . $whereClause . "";
+				
+		$query        = $this->result($queryString);
+	}
+
+	private function get_table_array ($tableName,$vars)
+	{
+		$prefix = substr_replace($tableName,"",3) . "_";
+		
+		foreach($vars as $key => $value) {
+			if (ereg($prefix, $key))
+				$tableData[$key] = $value;			
+		}		
+		return $tableData;
+	}
+	
+	private function get_update_string($tableName, $vars) 
+	{
+		$vars = $this->get_table_array($tableName, $vars);		
+		
+		$updatestring = "";
+		
+		while(list($key,$value) = each($vars)) 
+		{			
+				if(is_array($value)) {				  
+					$x=0;
+					while(list($key2,$value2)=each($value)) 
+					{
+						$valinput .= $value2;
+						if($x < count($value)-1) 
+						{ 
+							$valinput .= ",";$x++; 
+						}
+					}
+					$columns[] = $key;
+					$values[]  = $valinput;
+					$x         = 0;
+					$valinput  = "";
+				}
+				else 
+				{
+					$columns[] = $key;
+					$values[]  = $value;
+				}
+		}
+	
+		$numcols = count($columns);
+		$numvals = count($values);
+		
+		for($i=0;$i<$numcols;$i++) 
+		{
+			$updatestring .= $columns[$i] . "='" . $values[$i] . "'";
+	
+			if($i<$numcols-1) 
+				$updatestring .= ", ";	
+		}
+		return $updatestring;
+	}
+	
+	public function save($table, $tableId, $idValue, $postVars) 
+	{
+		$queryString = "SELECT * FROM " . $table . " WHERE " . $tableId . "='" . $idValue . "'";
+		$query = $this->result($queryString);		
+		
+		if($this->num_rows($query) < 1)
+		{			
+			return $insertId = $this->insert_record($table, $postVars);
+		}
+		else 
+		{			
+			$this->update_record($table, $postVars, "WHERE " . $tableId . "='" . $idValue . "'");
+			return $idValue;
+		}
+	}
+		
+}
+
+?>

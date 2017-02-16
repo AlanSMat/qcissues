@@ -1,0 +1,96 @@
+<?php 
+if(isset($page_title) && $page_title != "QC Issues - Index") 
+{
+  header('Cache-Control: no-store, no-cache, must-revalidate');
+}
+
+if(isset($_REQUEST['pageid'])) 
+{
+  $page_id = $_REQUEST["pageid"];
+}
+else 
+{
+  $page_id = "default";
+}
+
+?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title><?php isset($page_title) ? print $page_title : print "Untitled" ; ?></title>
+  <meta http-equiv="cache-control" content="no-cache">
+  <meta http-equiv="pragma" content="no-cache">
+  <style type="text/css">
+	  #<?php echo $page_id ?> {
+		  float:left;
+		  padding:2px 0px 2px 0px;
+		  width:125px;
+		  text-align:center;
+		  background-color:#ccc;
+		  color:#000;
+		  cursor:pointer;
+		  border: 1px solid #ccc;
+		  xborder-right:0px;			
+	  }
+		
+	  a.remake {
+		  color:#0000ff;
+		  text-decoration:underline;
+		  padding-left:10px;
+	  }
+	  
+    .gradbg 
+    {
+      background-image:url('images/topgrad.gif');
+    }
+	  
+  </style>
+  <script language="JavaScript" type="text/javascript">
+	  function printpage() {
+		  window.print();  
+	  }
+		
+	  function refresh_page() {
+		  document.location = document.location;
+	  }
+	  
+	  function windowNew(url, width, height) 
+	  {
+	    if(!width)
+	      width = 600;
+	    if(!height)
+	      height = 500;
+	    var left = (screen.width / 2) - (width / 2);
+	    var top = (screen.height / 2) - (height / 2);
+	    link = window.open(url,"Link","toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=1,width=" + width + ",height=" + height + ",left=" + left + ",top=" + top + ""); 
+	  }
+		
+  </script>    
+  <script type="text/javascript" src="<?php echo SCRIPTS_URL ?>/common.js"></script>
+  <script type="text/javascript" src="<?php echo SCRIPTS_URL ?>/form_validation.js"></script>
+  <link rel="stylesheet" type="text/css" href="<?php echo CSS_URL ?>/default.css"  media="screen" />    
+  <link rel="stylesheet" type="text/css" href="<?php echo CSS_URL ?>/print.css" media="print" />    
+</head>
+<body>
+  <div class="mainBodyContainer">
+    <div class="mainPageWidthAndHeight" align="center">   
+      <div class="noprint">
+	  	<table cellpadding="0" cellspacing="0" border="0" width="100%">
+	  	  <tr>
+	  	    <td class="bannerbg" align="left"><img src="<?php echo IMAGES_URL ?>/NWNBanner.jpg" width="314" height="35" alt="" /></td>
+		  	</tr>
+		  	<tr>
+		    	<td background="<?php echo IMAGES_URL ?>/topgrad.gif">  	 	  
+			  		<div class="mainTitle"><b>Chullora Quality Issues</b></div>
+					</td>
+		  	</tr>
+			</table>
+  		<div class="navTopContainer">		     
+  		  <div class="navItemTop" id="default" style="float:left;" onMouseOut="this.className='navItemTop'" onMouseOver="this.className='navItemOverTop'" onClick="document.location='<?php echo ROOT_URL ?>/index.php?pageid=default'">New QC Issue</div>
+  		  <div class="navItemTop" id="browse" style="float:left;" onMouseOut="this.className='navItemTop'" onMouseOver="this.className='navItemOverTop'" onClick="document.location='<?php echo ROOT_URL ?>/browse.php?pageid=browse'"">Browse</div>		      
+  		  <div class="navItemTop" id="search" style="border-right:1px outset #ccc;float:left;" onMouseOut="this.className='navItemTop'" onMouseOver="this.className='navItemOverTop'" onClick="document.location='<?php echo ROOT_URL ?>/search.php?pageid=search'">Search</div>
+  		  <div class="navItemTop" id="errorResponses" style="float:right" onMouseOut="this.className='navItemTop'" onMouseOver="this.className='navItemOverTop'" onClick="document.location = '<?php echo ROOT_URL ?>/error_responses/list_error_responses.php?pageid=errorResponses'">Error Responses</div>		  		  		 
+  		  <div class="navItemTop" id="operators" style="float:right" onMouseOut="this.className='navItemTop'" onMouseOver="this.className='navItemOverTop'" onClick="document.location = '<?php echo ROOT_URL ?>/operators/list_operators.php?pageid=operators'">Operators</div>
+  		  <div class="navItemTop" id="errorTypes" style="float:right" onMouseOut="this.className='navItemTop'" onMouseOver="this.className='navItemOverTop'" onClick="document.location = '<?php echo ROOT_URL ?>/error_types/list_error_types.php?pageid=errorTypes&department_id=0'">Error Types</div>          
+  		  <div class="clear">&nbsp;</div>
+  	    </div><!-- end navTopContainer -->
+  	  </div><!-- end noprint -->   

@@ -1,0 +1,89 @@
+<style type="text/css">
+<!--
+.style4 {	font-size: 12px;
+	font-family: Tahoma;
+}
+.style5 {font-size: 12px; font-family: Tahoma; font-weight: bold; }
+-->
+</style>
+<span class="style4"><span class="style5">DynamicDropDown -</span> The class is to Fetch values from the DB and display in 3 ListBox.</span>
+
+<script type="text/javascript" language="javascript">
+<!--
+function changeBrand(obj, selectedIndex){
+	
+	if(obj.value == '1'){
+	
+		/* Loading Values for the Brand Drop Down */
+		var i = 0;
+		document.dform.brand.options[i++] = new Option('--Select--','--Select--');
+		document.dform.brand.options[i++] = new Option('brand 1','1');
+		document.dform.brand.options[i++] = new Option('brand 2','2');
+		//document.dform.brand.options[selectedIndex].selected = true;
+		document.dform.brand.disabled = false;
+		return true;
+	}
+	
+	if(obj.value == '2'){
+
+		var i = 0;
+		/* Loading Values for the Brand Drop Down */
+		document.dform.brand.options.length = 0;
+		document.dform.brand.options[i++] = new Option('--Select--','--Select--');
+		document.dform.brand.options[i++] = new Option('brand 3','3');
+		document.dform.brand.disabled = false;
+		return true;
+	}
+}
+
+function changeModel(obj){
+
+if(obj.value == '1'){
+
+	/* Loading Values for the Brand Drop Down */
+	document.dform.model.options.length = 0;
+	document.dform.model.options[document.dform.model.options.length] = new Option('--Select--','--Select--');
+	document.dform.model.options[document.dform.model.options.length] = new Option('model 1','1');
+	document.dform.model.options[document.dform.model.options.length] = new Option('model 3','3');
+	document.dform.model.disabled = false;
+	return true;
+}
+
+if(obj.value == '2'){
+
+	/* Loading Values for the Brand Drop Down */
+	document.dform.model.options.length = 0;
+	document.dform.model.options[document.dform.model.options.length] = new Option('--Select--','--Select--');
+	document.dform.model.options[document.dform.model.options.length] = new Option('model 2','2');
+	document.dform.model.disabled = false;
+	return true;
+}
+
+if(obj.value == '3'){
+
+	/* Loading Values for the Brand Drop Down */
+	document.dform.model.options.length = 0;
+	document.dform.model.options[document.dform.model.options.length] = new Option('--Select--','--Select--');
+	document.dform.model.disabled = false;
+	return true;
+}
+}
+-->
+</script>
+<form name="dform" method="post">Type 
+<select name="type" size="1" onChange='changeBrand(this)'>
+	<option value='--Select--'>--Select--</option>
+	<option value='1'>Type 1</option>
+	<option value='2'>Type 2</option>
+</select>
+ &nbsp; Brand&nbsp;<select name="brand" onChange='changeModel(this)' disabled >
+<option value='--Select--'>--Select--</option>
+</select> &nbsp; Model&nbsp;<select name="model" disabled>
+<option value='--Select--'>--Select--</option>
+</select>
+</form>
+<script>
+//var objType = document.forms[0].type; 
+//objType.options[1].selected = true;
+//changeBrand(objType, 2);
+</script>

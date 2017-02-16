@@ -1,0 +1,77 @@
+<?php
+session_start();
+require("globals.php");
+
+$page_title = "QC Issues - Save Issue";
+
+include(CLASSES_PATH . "/class.DD_text.php");
+include(INCLUDES_PATH . "/site_header.php");
+?>
+  <div class="pageTitleContainer">
+    <div class="pageTitle">
+      <div class="pageTitleSpacing">&nbsp;</div>	      
+    </div>
+  </div> 
+<?php
+$query = new Query();
+
+$_POST["qcc_pubdate"]   = strtotime($_POST["qcc_pubdate"]);
+/*
+if($_POST["qcc_dayshift"]) 
+{
+  $_POST["qcc_presscrew"] = "Day";
+}
+else if($_POST["qcc_afternoonshift"]) 
+{
+  $_POST["qcc_presscrew"] = "Afternoon";
+}
+else if($_POST["qcc_nightshift"]) 
+{
+  $_POST["qcc_presscrew"] = "Night";
+}
+*/
+if($_POST["qcc_submitted"] == 0) 
+{
+  $_POST["qcc_submitted"] = 1;
+  $_POST["qcc_status"]    = "Open";
+  $_POST["qcc_logdate"]   = strtotime("now");    
+  $_POST["qcc_errordetails"] = addslashes($_POST["qcc_errordetails"]);
+  $id = $query->insert_record("qcc_qcissues", $_POST);
+  
+  $save_message = "QC Issue " . $id . " has been added.<br /><br />To send an email regarding this issue <a href=\"mailTo:woodsideg@newsltd.com.au; glisicr@newsltd.com.au; zahrad@newsltd.com.au; elliottmi@newsltd.com.au;?subject=New QC Issue " . $id . "\"><b>click here</b></a>";  
+}
+else 
+{
+  $query = new Query("SELECT * FROM qcc_qcissues WHERE qcc_id='" . $_POST['issue_id'] . "'");
+  $row = $query->next();
+  
+  $dd_text = new DD_text($row);
+  
+  $operator_email = $dd_text->operator($_POST["qcc_operator"]);
+
+  !isset($_POST["qcc_dayshift"]) ? $_POST["qcc_dayshift"] = 0 : $_POST["qcc_dayshift"] = 1;
+  !isset($_POST["qcc_afternoonshift"]) ? $_POST["qcc_afternoonshift"] = 0 : $_POST["qcc_afternoonshift"] = 1;
+  !isset($_POST["qcc_nightshift"]) ? $_POST["qcc_nightshift"] = 0 : $_POST["qcc_nightshift"] = 1;
+
+  $_POST["qcc_errordetails"] = addslashes($_POST["qcc_errordetails"]);
+  $_POST["qcc_responsedetails"] = addslashes($_POST["qcc_responsedetails"]);
+  
+  $where_clause = "WHERE qcc_id='" . $_POST["issue_id"] . "'";
+  $query->update_record("qcc_qcissues", $_POST, $where_clause);
+  
+  $save_message = "QC Issue " . $_POST["issue_id"] . " has been updated.<br /><br />To send an email response to this issue <a href=\"mailTo:" . $operator_email . "?subject=QC Issue " . $_POST["issue_id"] . "\"><b>click here</b></a>";
+}
+
+  ?>
+  <div style="text-align:center; padding-top:200px;">
+	<?php echo $save_message ?>
+  </div>
+  <?php
+
+/*
+session_unset($_SESSION["qcissues"]);
+session_destroy();
+*/
+
+include(INCLUDES_PATH . "/site_footer.php");
+?>

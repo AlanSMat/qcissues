@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Manual ----- Dynamic Drop Down, Loads Value With out refreshing Page (Data from Database) </title>
+<style type="text/css">
+<!--
+.style4 {
+	font-size: 12px;
+	font-family: Tahoma;
+}
+.style5 {font-size: 12px; font-family: Tahoma; font-weight: bold; }
+-->
+</style>
+</head>
+<body>
+<p class="style4"><span class="style5">DynamicDropDown -</span> The class is to Fetch values from the DB and display in 3 ListBox.</p>
+<p class="style4"><u>Explaination:</u> The Class can be used to Fetch the record for the database and load it in different list boxes, where are the Values of the child will be depended to the Parent. Here we have 3 Levels, Like illustrated below .</p>
+<p class="style4"><strong>Type -----------------&gt; Brand -------------&gt; Model.</strong></p>
+<p class="style4">Its like when we select the Type respective Brand list will be loaded, when the use makes the choice in the Brand dropdown then the Model is made avaiable based on the previous box value. </p>
+<p class="style4">Here is the Example create by implementing the class.</p>
+<ol class="style4">
+  <li>&lt;?php</li>
+  <li> /************************************************************************/</li>
+  <li> /* index.php */</li>
+  <li> /* ======================================================*/</li>
+  <li> /* @Copyright (c) 2005 by Gobinath (gobinathm at gmail dot com) */</li>
+  <li> /* */</li>
+  <li> /* @Author(s): Gobinath */</li>
+  <li> /* */</li>
+  <li> /* @Version: 1.0.0 */</li>
+  <li> /************************************************************************/</li>
+  <li> </li>
+  <li>/* database configuration */</li>
+  <li> $dbConfig['type']=&quot;mysql&quot;;</li>
+  <li> $dbConfig['server']=&quot;localhost&quot;;</li>
+  <li> $dbConfig['username']=&quot;****&quot;;</li>
+  <li> $dbConfig['password']=&quot;************&quot;;</li>
+  <li> $dbConfig['database']=&quot;*****&quot;;</li>
+  <li> </li>
+  <li>include_once(&quot;DynamicDropDown.class.php&quot;); </li>
+  <li> $dForm = new DynamicDropDown($dbConfig); </li>
+  <li> $dFormName = &quot;dform&quot;; </li>
+  <li>    $dForm-&gt;DataFetch(); </li>
+  <li>    $dForm-&gt;CreateJavaScript($dFormName);</li>
+  <li> echo &quot;&lt;form name=\&quot;$dFormName\&quot; method=\&quot;post\&quot;&gt;&quot;;</li>
+  <li> $dForm-&gt;CreateListBox();</li>
+  <li> echo &quot;&lt;/form&gt;&quot;; </li>
+  <li>    $dForm-&gt;DynamicDropDown_Close(); </li>
+  <li> ?&gt;</li>
+</ol>
+<p class="style4"><strong>Line 2-10</strong>: Comments on the Example Script <br />
+<strong>Line 13-17 </strong>: Storing the Database information in the table <br />
+<strong>Line 19 </strong>: Includes the Class file to this example Script. <br />
+<strong>Line 20 </strong>: We are Creating an object to the DynamicDropDown Class, which will Calls the Constructor of the Function<br />
+<strong>Line 21</strong> : Assign a NAME for the Form which we will be using in this Example Script <br />
+<strong>Line 22</strong> : Call to the DataFetch method, which will Fetch the data from the Tables. <br />
+<strong>Line 23 </strong>: Call to the CreateJavaScript method,which will dynamically creates the Javascript which loads the Data to the List Box<br />
+<strong>Line 24</strong> : Creates a New form on this Example Script Page<br />
+<strong>Line 25</strong> : Call to the Member Function which will create the Form Object, Means the List Boxes<br />
+<strong>Line 26</strong> : Close the Form<br />
+<strong>Line 27</strong> : Call to the Destructor type of function, which will destroy all the variables and object </p>
+<p class="style4"><span class="style5">Note:</span> This file can be considered as a User Guide. This will Help you to Create object and access the members</p>
+<p class="style4">You can use the<strong> Mysql Schema</strong> to Create the Data Structure </p>
+<p class="style5">#<br />
+  # Table structure for table `type`<br />
+#</p>
+<p class="style4">CREATE TABLE `type` (<br />
+  `type_id` smallint(9) NOT NULL auto_increment,<br />
+  `type_name` varchar(255) NOT NULL default '',<br />
+  PRIMARY KEY (`type_id`)<br />
+) TYPE=MyISAM AUTO_INCREMENT=3 ;</p>
+<p><br />
+  <span class="style5">#<br />
+  # Table structure for table `brand`<br />
+#</span></p>
+<p class="style4">CREATE TABLE `brand` (<br />
+  `brand_id` smallint(9) NOT NULL auto_increment,<br />
+  `brand_name` varchar(255) NOT NULL default '',<br />
+  `type_id` smallint(9) NOT NULL default '0',<br />
+  PRIMARY KEY (`brand_id`)<br />
+  ) TYPE=MyISAM AUTO_INCREMENT=4 ;</p>
+<p class="style4"><br />
+  <span class="style5">#<br />
+  # Table structure for table `model`<br />
+#</span></p>
+<p class="style4">CREATE TABLE `model` (<br />
+  `model_id` smallint(9) NOT NULL auto_increment,<br />
+  `model_name` varchar(255) NOT NULL default '',<br />
+  `brand_id` smallint(9) NOT NULL default '0',<br />
+  PRIMARY KEY (`model_id`)<br />
+  ) TYPE=MyISAM AUTO_INCREMENT=4 ;</p>
+</body>
+</html>
